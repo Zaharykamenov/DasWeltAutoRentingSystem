@@ -1,0 +1,18 @@
+﻿@model IEnumerable<CarServiceModel>
+
+@{
+    ViewBag.Title = "All Cars";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<h4 class="text-center">All Cars Registered</h4>
+
+<div class="row">
+    @foreach (var car in Model)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_CarPartial.cshtml", car)
+    }
+</div>
+
