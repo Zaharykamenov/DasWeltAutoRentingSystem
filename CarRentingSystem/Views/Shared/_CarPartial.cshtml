@@ -22,6 +22,11 @@
             {
                 @if ((await this.cars.HasAgentWithId(Model.Id, this.User.Id())) || User.IsAdmin())
                 {
+                    <p></p>
+                    <form class="input-group-sm" asp-area="" asp-controller="Car" asp-action="SendEmail" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-info" type="submit" value="SendEmail" />
+                    </form>
+                    <p></p>
                     <a asp-area="" asp-controller="Car" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
                     <a asp-area="" asp-controller="Car" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
                 }

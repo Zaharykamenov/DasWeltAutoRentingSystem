@@ -1,4 +1,5 @@
-using CarRentingSystem.Extensions;
+using CarRentingSystem.Configuration;
+using CarRentingSystem.Constants;
 using CarRentingSystem.Infrastructure.Data;
 using CarRentingSystem.Infrastructure.Data.Models;
 using CarRentingSystem.Infrastructure.Extensions;
@@ -44,8 +45,10 @@ builder.Host.ConfigureAppConfiguration((context, builder) =>
     builder.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: false)
     .AddEnvironmentVariables();
 });
-
 builder.Services.AddApplicationServices();
+
+var emailConfigurationSection = builder.Configuration.GetSection(EmailConfigurationConstants.EmailConfiguration);
+builder.Services.Configure<EmailConfiguration>(emailConfigurationSection);
 
 builder.Host.UseSerilog((hostContext, logger) =>
 {

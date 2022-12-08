@@ -8,6 +8,9 @@
         public const string AgentDoesNotExistError = "You are not agent!";
         public const string CarIsAlreadyRented = "Car is already rented!";
 
+        public const string CarEmailError = "Email could not be send!";
+        public const string CarEmailSuccess = "Email was sended!";
+
         public const string CarRentedSuccessfully = "You just rent a car!";
         public const string CarLeavedSuccessfully = "You just leave a car!";
         public const string CarDeletedSuccessfully = "You just delete a car!";

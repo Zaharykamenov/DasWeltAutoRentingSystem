@@ -1,0 +1,28 @@
+﻿@model EngineCategoryDetailsModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="text-center">Delete Engine Category</h1>
+<hr />
+<h3 class="text-center">Are you sure you want to delete this?</h3>
+<div>
+    <h4>Engine Category</h4>
+    <hr />
+    <div class="card">
+        <h5 class="card-header">Engine Category Information</h5>
+        <div class="card-body">
+            <h5 class="card-title">@Model.Fuel</h5>
+            <p class="card-text">@Model.Description</p>
+        </div>
+    </div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+</div>
+<br />
+<div class="form-group">
+    <a class="btn btn-secondary" asp-action="All">Back to All Engine Categories</a>
+</div>

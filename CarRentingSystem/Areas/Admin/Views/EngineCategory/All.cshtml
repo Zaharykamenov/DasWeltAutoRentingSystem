@@ -1,6 +1,68 @@
-﻿@model IEnumerable<CarRentingSystem.Core.Models.EngineCategory.EngineCategoryViewModel>
+﻿@model IEnumerable<EngineCategoryViewModel>
 
 @{
-    ViewData["Title"] = "All Engine Category";
+    ViewData["Title"] = "All";
 }
+
+<h1 class="text-center">All Engine Category</h1>
+<h5 class="text-center">Total engine category: @Model.Count()</h5>
+
+
+<h6>
+    Create Engine Category: <a class="btn btn-outline-primary" asp-action="Create">Create</a>
+</h6>
+
+
+<form asp-area="Admin" asp-controller="EngineCategory" asp-action="All" method="get">
+    <p>
+        Engine category: <input type="text" name="SearchString" />
+        <input type="submit" class="btn btn-outline-success" name="Search">
+        @*<input type="submit" value="Filter"/>*@
+    </p>
+</form>
+
+<form asp-area="Admin" asp-controller="EngineCategory" asp-action="All" method="get">
+    <p>
+        @*<input type="submit" value="Clear" />*@
+        <input type="submit" class="btn btn-outline-warning" name="Clear">
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Fuel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Cars)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.Fuel)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.Cars)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 

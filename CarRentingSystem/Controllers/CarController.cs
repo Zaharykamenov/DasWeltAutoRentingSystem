@@ -1,5 +1,4 @@
 ﻿using CarRentingSystem.Areas.Admin.Constants;
-using CarRentingSystem.Areas.Identity.Pages.Account;
 using CarRentingSystem.Constants;
 using CarRentingSystem.Core.Contracts;
 using CarRentingSystem.Core.Extensions;
@@ -8,7 +7,6 @@ using CarRentingSystem.Extensions;
 using CarRentingSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace CarRentingSystem.Controllers
 {
@@ -17,11 +15,17 @@ namespace CarRentingSystem.Controllers
     {
         private readonly ICarService carService;
         private readonly IAgentService agentService;
+        private readonly IEmailService emailService;
+        private readonly ILogger logger;
 
-        public CarController(ICarService carService, IAgentService agentService)
+        public CarController(
+            ICarService carService,
+            IAgentService agentService,
+            IEmailService emailService)
         {
             this.carService = carService;
             this.agentService = agentService;
+            this.emailService = emailService;
         }
 
         [HttpGet]
@@ -309,6 +313,25 @@ namespace CarRentingSystem.Controllers
             await this.carService.LeaveCar(id);
 
             TempData[AgentControllerConstants.SuccessMessage] = CarControllerConstants.CarLeavedSuccessfully;
+            return RedirectToAction(nameof(Mine));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendEmail(int id)
+        {
+            var userId = User.Id();
+
+            try
+            {
+                await this.emailService.Send(id, userId);
+            }
+            catch (Exception ex)
+            {
+                TempData[AgentControllerConstants.ErrorMessage] = CarControllerConstants.CarEmailError;
+                return RedirectToAction(nameof(Mine));
+            }
+
+            TempData[AgentControllerConstants.SuccessMessage] = CarControllerConstants.CarEmailSuccess;
             return RedirectToAction(nameof(Mine));
         }
     }

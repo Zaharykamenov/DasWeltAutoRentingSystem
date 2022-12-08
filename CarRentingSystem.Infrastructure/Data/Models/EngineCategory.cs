@@ -21,6 +21,9 @@ namespace CarRentingSystem.Infrastructure.Data.Models
         [StringLength(EngineCategoryConstants.DescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
+        [Required]
+        public bool IsActive { get; set; }
+
         public ICollection<Car> Cars { get; set; }
     }
 }

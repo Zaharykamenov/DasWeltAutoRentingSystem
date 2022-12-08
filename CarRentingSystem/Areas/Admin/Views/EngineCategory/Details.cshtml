@@ -1,0 +1,22 @@
+﻿@model EngineCategoryDetailsModel
+
+@{
+    ViewBag.Title = "Details Engine Category";
+}
+
+<h1 class="text-center">@ViewBag.Title</h1>
+
+<div class="card">
+    <h5 class="card-header">Engine Category Information</h5>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Fuel</h5>
+        <p class="card-text">@Model.Description</p>
+        <div class="form-group">
+            <a asp-action="Edit" class="btn btn-success" asp-route-id="@Model.Id">Edit</a>
+        </div>
+        <br />
+        <div class="form-group">
+            <a asp-action="All" class="btn btn-secondary">Back to All Engine Category</a>
+        </div>
+    </div>
+</div>

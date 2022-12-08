@@ -49,7 +49,7 @@ namespace CarRentingSystem.Core.Contracts
 
         Task<IEnumerable<CarServiceModel>> GetAllExistedCar();
 
-        Task<IEnumerable<EngineCategoryViewModel>> GetAllEngineCategory();
+        
 
 
     }

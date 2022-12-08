@@ -67,7 +67,8 @@ namespace CarRentingSystem.UnitTest.UnitTests
                 {
                     Id = 1,
                     Fuel = "Diesel",
-                    Description = "This is a test description."
+                    Description = "This is a test description.",
+                    IsActive = true
                 }
             };
             this.context.Cars.Add(this.RentedCar);
@@ -84,7 +85,8 @@ namespace CarRentingSystem.UnitTest.UnitTests
                 {
                     Id = 2,
                     Fuel = "Benzin",
-                    Description = "This is a test description."
+                    Description = "This is a test description.",
+                    IsActive = true
                 }
             };
             this.context.Cars.Add(this.NonRentedCar);

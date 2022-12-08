@@ -84,6 +84,7 @@ namespace CarRentingSystem.Core.Services
         public async Task<IEnumerable<CarCategoryModel>> AllCategories()
         {
             return await this.repository.AllReadonly<EngineCategory>()
+                 .Where(c => c.IsActive == true)
                  .OrderBy(c => c.Fuel)
                  .Select(c => new CarCategoryModel()
                  {
@@ -96,6 +97,7 @@ namespace CarRentingSystem.Core.Services
         public async Task<IEnumerable<string>> AllCategoriesNames()
         {
             return await this.repository.AllReadonly<EngineCategory>()
+                .Where(e => e.IsActive)
                 .Select(c => c.Fuel)
                 .Distinct()
                 .ToListAsync();
@@ -140,6 +142,7 @@ namespace CarRentingSystem.Core.Services
         public async Task<bool> CategoryExist(int engineCategoryId)
         {
             return await this.repository.AllReadonly<EngineCategory>()
+                .Where(e => e.IsActive)
                 .AnyAsync(c => c.Id == engineCategoryId);
         }
 
@@ -357,20 +360,6 @@ namespace CarRentingSystem.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<EngineCategoryViewModel>> GetAllEngineCategory()
-        {
-            return await this.repository.AllReadonly<EngineCategory>()
-                .Select(e => new EngineCategoryViewModel()
-                {
-                    Id = e.Id,
-                    Fuel = e.Fuel,
-                    Description = e.Description,
-                    Cars = this.repository
-                        .AllReadonly<Car>()
-                        .Count(c => c.EngineCategoryId == e.Id)
 
-                })
-                .ToListAsync();
-        }
     }
 }
