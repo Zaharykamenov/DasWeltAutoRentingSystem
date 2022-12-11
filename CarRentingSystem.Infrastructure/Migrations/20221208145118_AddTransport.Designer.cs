@@ -4,6 +4,7 @@ using CarRentingSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208145118_AddTransport")]
+    partial class AddTransport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,9 +232,6 @@ namespace CarRentingSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AgentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -240,15 +240,6 @@ namespace CarRentingSystem.Infrastructure.Migrations
                     b.Property<int>("DeliveryDays")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -256,14 +247,7 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("RenterId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("AgentId");
-
-                    b.HasIndex("RenterId");
 
                     b.ToTable("Transports");
 
@@ -271,33 +255,24 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AgentId = 1,
                             CompanyName = "VidaTrans Ltd",
                             DeliveryDays = 5,
-                            Description = "Best transport company in the west Bulgaria!",
-                            ImageUrl = "https://www.vida.se/wp-content/uploads/2018/12/vida_rgb.jpg",
                             IsActive = true,
                             PricePerKm = 2.0m
                         },
                         new
                         {
                             Id = 2,
-                            AgentId = 2,
                             CompanyName = "SofiaTrans Ltd",
                             DeliveryDays = 3,
-                            Description = "The best transport company in central Bulgaria!",
-                            ImageUrl = "https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/102017/untitled-3_77.png?Q07xLRtpQwmjEjwxEl7zei_mYpcEEbdE&itok=y1qvbWxC",
                             IsActive = true,
                             PricePerKm = 10.0m
                         },
                         new
                         {
                             Id = 3,
-                            AgentId = 1,
                             CompanyName = "Speedy Ltd",
                             DeliveryDays = 1,
-                            Description = "The biggest and the fastest transport company in Bulgaria!",
-                            ImageUrl = "https://www.speedy.bg/uploads/file_manager_uploads/Pics/speedy-logo-4c--cmyk.jpg",
                             IsActive = true,
                             PricePerKm = 20.0m
                         });
@@ -382,7 +357,7 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a2434d1-aa93-45da-a778-71d2d742e992",
+                            ConcurrencyStamp = "58f2e511-63e3-4c21-9292-9479a2a85296",
                             Email = "zaharykamenov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Zahary",
@@ -390,9 +365,9 @@ namespace CarRentingSystem.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "zaharykamenov@gmail.com",
                             NormalizedUserName = "ZAHARYKAMENOV@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENGZUwIjrjoLPWTUTSlugy6xBn4qDBqv00w5ISkDPTsXL/pOVirURrhhDlhTIj0uOg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBZ5+eDPlJOtnp03x26IJNmFd2ZUBtdytaDD9NlEkWfT81bpWIzTgdeZd9capnhASA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e3ef4034-407b-4d24-9c08-875fee9c09cb",
+                            SecurityStamp = "0f4f3147-1c73-4698-abbe-a8545781ecaa",
                             TwoFactorEnabled = false,
                             UserName = "zaharykamenov@gmail.com"
                         },
@@ -400,7 +375,7 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3ce6228e-a94b-4747-91ce-e168bdaaeec5",
+                            ConcurrencyStamp = "7966001e-20d1-4f30-9a68-126c707c45a5",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Guest",
@@ -408,9 +383,9 @@ namespace CarRentingSystem.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECF7EdCTr7kfvBOE6SIAsrqNjK3gRp0Iz6X8FVEyKuvxo8ZzvOwCxk4WpsnV+Vkh1A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECMakWy/ssHz0Kuv4znvJnm/XcWHFADWdHIWphLuJYiNzcFHgyuvSf3+Uz7A3uknww==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "762b2809-540c-4d0c-820d-cb39c5e0ed8e",
+                            SecurityStamp = "686e23dc-f5e6-47d3-bcca-49823e4e3779",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -418,7 +393,7 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         {
                             Id = "bcb4f072-ecca-43c9-ab26-c060c6f364e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "439a43b0-e326-46c9-a35f-0e0a8dd3a48d",
+                            ConcurrencyStamp = "84223e47-a96b-41d9-88ef-8d25b70846c8",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -426,9 +401,9 @@ namespace CarRentingSystem.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@mail.com",
                             NormalizedUserName = "admin@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGJIyu8LIlMmXge/ohwmTFnyZJ+ZgHy9MjWMwPF+H0656UFB4NirdSdi+t0oLfoszQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF/VgEyR47gXz6EU29YDXVVafyBkJYUmn7SKDjYruAAyVAb4PhSTeNX8qCFHrHNdvw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "36a1f85a-c0c2-47cb-95df-ecf0268596ec",
+                            SecurityStamp = "ebc6aa56-08ec-4b82-85d3-132f689919a1",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         });
@@ -603,23 +578,6 @@ namespace CarRentingSystem.Infrastructure.Migrations
                     b.Navigation("Agent");
 
                     b.Navigation("EngineCategory");
-
-                    b.Navigation("Renter");
-                });
-
-            modelBuilder.Entity("CarRentingSystem.Infrastructure.Data.Models.Transport", b =>
-                {
-                    b.HasOne("CarRentingSystem.Infrastructure.Data.Models.Agent", "Agent")
-                        .WithMany()
-                        .HasForeignKey("AgentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarRentingSystem.Infrastructure.Data.Models.User", "Renter")
-                        .WithMany()
-                        .HasForeignKey("RenterId");
-
-                    b.Navigation("Agent");
 
                     b.Navigation("Renter");
                 });

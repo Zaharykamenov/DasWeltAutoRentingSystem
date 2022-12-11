@@ -6,5 +6,6 @@
         public const string ToDisplayName = "Loyal Clients";
         public const string FromPassword = "bmqmnyrvbqjkmnfs";
         public const string EmailSubject = "DasWeltAuto Renting - Business Communication";
+        public const string ParametersAreNullOrEmptyError = "Some of parameters are null or empty!";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CarRentingSystem.Common;
+using CarRentingSystem.Core.Constants;
 using CarRentingSystem.Core.Contracts;
 using CarRentingSystem.Core.Models.EngineCategory;
 using CarRentingSystem.Infrastructure.Data.Models;
@@ -17,6 +18,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task<int> CreateEngineCategory(EngineCategoryCreateModel model)
         {
+            if (model==null)
+            {
+                throw new ArgumentNullException(EngineCategoryConstants.ParametersAreNullOrEmptyError);
+            }
             var engine = new EngineCategory()
             {
                 Fuel = model.Fuel,
@@ -76,6 +81,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task UpdateEngineCategory(EngineCategoryDetailsModel model)
         {
+            if (model==null)
+            {
+                throw new ArgumentNullException(EngineCategoryConstants.ParametersAreNullOrEmptyError);
+            }
             var engine = await this.repository.GetByIdAsync<EngineCategory>(model.Id);
             engine.Fuel = model.Fuel;
             engine.Description = model.Description;

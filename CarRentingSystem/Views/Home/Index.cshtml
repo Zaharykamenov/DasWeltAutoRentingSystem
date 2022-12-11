@@ -2,7 +2,7 @@
 @inject IAgentService agents
 @{
     ViewData["Title"] = "Home Page";
-    bool first = true;
+    var cars = Model.ToList();
 }
 
 @if (Model.Count() == 0)
@@ -26,14 +26,13 @@
 
 <div class="mb-5"></div>
 
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        @foreach(var car in Model)
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="text-align:center">
+    <div class="carousel-inner" style="align-content:center">
+        @for (int i = 0; i < cars.Count(); i++)
         {
-            //d-flex justify-content-center   d-block w-100
-            //var car = Model[i];
-            <div class="carousel-item @(first ? "active" : string.Empty)">
-                <img class="d-flex justify-content-center" style="width:100%; height:auto"
+            var car = cars[i];
+            <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
+                <img class="d-flex justify-content-center" style="margin:auto; width:717px; height:535px;"
                  src="@car.ImageUrl" alt="@car.Title">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>
@@ -42,8 +41,6 @@
                     </h5>
                 </div>
             </div>
-            
-            @(first = false);
         }
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">

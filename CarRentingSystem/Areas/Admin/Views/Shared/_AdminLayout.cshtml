@@ -48,7 +48,7 @@
                                 @if (await this.agents.ExistById(this.User.Id()))
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Add">Add Cars</a>
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Add">Add Car</a>
                                     </li>
                                 }
                                 else
@@ -58,7 +58,10 @@
                                     </li>
                                 }
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="EngineCategory" asp-action="All">All Engine Categories</a>
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Transport" asp-action="All">All Transports</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Transport" asp-action="Add">Add Transport</a>
                                 </li>
                             }
                         </ul>

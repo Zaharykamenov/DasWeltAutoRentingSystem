@@ -1,4 +1,5 @@
 ﻿using CarRentingSystem.Common;
+using CarRentingSystem.Core.Constants;
 using CarRentingSystem.Core.Contracts;
 using CarRentingSystem.Core.Models.User;
 using CarRentingSystem.Infrastructure.Data.Models;
@@ -48,6 +49,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task<string> UserFullName(string userId)
         {
+            if (String.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException(UserConstants.ParametersAreNullOrEmptyError);
+            }
             StringBuilder sb = new StringBuilder();
 
             var user = await this.repository.GetByIdAsync<User>(userId); //.AllReadonly<User>().FirstOrDefault(u=>u.Id==userId);
@@ -63,6 +68,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task<bool> UserHasRents(string userId)
         {
+            if (String.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException(UserConstants.ParametersAreNullOrEmptyError);
+            }
             return await this.repository.All<Car>()
                 .AnyAsync(h => h.RenterId == userId);
         }

@@ -4,6 +4,7 @@ using CarRentingSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208155534_AddTransportNewColumn")]
+    partial class AddTransportNewColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,9 +232,6 @@ namespace CarRentingSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AgentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -256,14 +256,7 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("RenterId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("AgentId");
-
-                    b.HasIndex("RenterId");
 
                     b.ToTable("Transports");
 
@@ -271,7 +264,6 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            AgentId = 1,
                             CompanyName = "VidaTrans Ltd",
                             DeliveryDays = 5,
                             Description = "Best transport company in the west Bulgaria!",
@@ -282,7 +274,6 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-                            AgentId = 2,
                             CompanyName = "SofiaTrans Ltd",
                             DeliveryDays = 3,
                             Description = "The best transport company in central Bulgaria!",
@@ -293,7 +284,6 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         new
                         {
                             Id = 3,
-                            AgentId = 1,
                             CompanyName = "Speedy Ltd",
                             DeliveryDays = 1,
                             Description = "The biggest and the fastest transport company in Bulgaria!",
@@ -382,7 +372,7 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a2434d1-aa93-45da-a778-71d2d742e992",
+                            ConcurrencyStamp = "2dc73998-c53a-4735-8c76-fa2889994e99",
                             Email = "zaharykamenov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Zahary",
@@ -390,9 +380,9 @@ namespace CarRentingSystem.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "zaharykamenov@gmail.com",
                             NormalizedUserName = "ZAHARYKAMENOV@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENGZUwIjrjoLPWTUTSlugy6xBn4qDBqv00w5ISkDPTsXL/pOVirURrhhDlhTIj0uOg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECCD2clrLe5XvPOUMGnTm5lrRbWt2PsTdVVnaKlhH7t+59iQh9szlg1fzOaXkrs9AA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e3ef4034-407b-4d24-9c08-875fee9c09cb",
+                            SecurityStamp = "8eed1be3-7f31-44bd-bd2b-a6b9f71a2a5a",
                             TwoFactorEnabled = false,
                             UserName = "zaharykamenov@gmail.com"
                         },
@@ -400,7 +390,7 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3ce6228e-a94b-4747-91ce-e168bdaaeec5",
+                            ConcurrencyStamp = "9c903175-3ca0-4ef8-a06c-3f8b0a5e9045",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Guest",
@@ -408,9 +398,9 @@ namespace CarRentingSystem.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECF7EdCTr7kfvBOE6SIAsrqNjK3gRp0Iz6X8FVEyKuvxo8ZzvOwCxk4WpsnV+Vkh1A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG4T5F5bT7MzAgUPHNMSQpG6QmYjjFdYiUgAU9nhcO14cJ21auVur9bDuVP9vj1jjA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "762b2809-540c-4d0c-820d-cb39c5e0ed8e",
+                            SecurityStamp = "d9dbc37f-5872-4d5f-9246-8f57720748f9",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -418,7 +408,7 @@ namespace CarRentingSystem.Infrastructure.Migrations
                         {
                             Id = "bcb4f072-ecca-43c9-ab26-c060c6f364e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "439a43b0-e326-46c9-a35f-0e0a8dd3a48d",
+                            ConcurrencyStamp = "cad86728-1e00-4384-b492-15d6d506357c",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -426,9 +416,9 @@ namespace CarRentingSystem.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@mail.com",
                             NormalizedUserName = "admin@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGJIyu8LIlMmXge/ohwmTFnyZJ+ZgHy9MjWMwPF+H0656UFB4NirdSdi+t0oLfoszQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH80dhOrvtuJost99zMm26xYM5k6xo9sxBf3C/hMMSTKDU3Xr8JvAxKTJZWqbLKNoA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "36a1f85a-c0c2-47cb-95df-ecf0268596ec",
+                            SecurityStamp = "a2c9a55f-a4da-4a52-838b-e2bc3db8298b",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         });
@@ -603,23 +593,6 @@ namespace CarRentingSystem.Infrastructure.Migrations
                     b.Navigation("Agent");
 
                     b.Navigation("EngineCategory");
-
-                    b.Navigation("Renter");
-                });
-
-            modelBuilder.Entity("CarRentingSystem.Infrastructure.Data.Models.Transport", b =>
-                {
-                    b.HasOne("CarRentingSystem.Infrastructure.Data.Models.Agent", "Agent")
-                        .WithMany()
-                        .HasForeignKey("AgentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarRentingSystem.Infrastructure.Data.Models.User", "Renter")
-                        .WithMany()
-                        .HasForeignKey("RenterId");
-
-                    b.Navigation("Agent");
 
                     b.Navigation("Renter");
                 });

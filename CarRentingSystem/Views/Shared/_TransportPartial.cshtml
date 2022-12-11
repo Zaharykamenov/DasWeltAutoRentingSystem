@@ -1,0 +1,42 @@
+﻿@model AllTransportsViewModel
+
+@inject IAgentService agents
+@inject ITransportService transport
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <img class="card-img-top" style="width: 400px; height: 200px" src="@Model.ImageUrl" alt="Transport Image">
+        <div class="card-body text-center">
+            <h4>@Model.CompanyName</h4>
+            <h6>
+                Price Per Month:
+                <b>@String.Format("{0:f2}", Model.PricePerKm) BGN</b>
+            </h6>
+            <h6>(@(Model.IsRented ? "Rented" : "Not Rented"))</h6>
+            <br />
+            <a asp-area="" asp-controller="Transport" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Details</a>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                @if ((await this.transport.HasAgentWithId(Model.Id, this.User.Id())) || User.IsAdmin())
+                {
+                    <a asp-area="" asp-controller="Transport" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-area="" asp-controller="Transport" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                }
+                <p></p>
+                @if (!Model.IsRented && !(await this.agents.ExistById(this.User.Id())) && (await this.transport.HasRentedCarByUserId(this.User.Id())) || User.IsAdmin())
+                {
+                    <form class="input-group-sm" asp-area="" asp-controller="Transport" asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Rent" />
+                    </form>
+                }
+                else if (await this.transport.IsRentedByUserWithId(Model.Id, this.User.Id()))
+                {
+                    <form asp-area="" asp-controller="Transport" asp-action="Leave"
+                      asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Leave" />
+                    </form>
+                }
+            }
+        </div>
+    </div>
+</div>

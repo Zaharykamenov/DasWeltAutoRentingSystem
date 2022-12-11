@@ -8,6 +8,7 @@ namespace CarRentingSystem.Infrastructure.Data
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         private bool seedDb;
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, bool seedDb = true)
             : base(options)
         {
@@ -26,6 +27,7 @@ namespace CarRentingSystem.Infrastructure.Data
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<EngineCategory> EngineCategory { get; set; }
         public virtual DbSet<Agent> Agents { get; set; }
+        public virtual DbSet<Transport> Transports { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -36,6 +38,7 @@ namespace CarRentingSystem.Infrastructure.Data
                 builder.ApplyConfiguration(new AgentConfiguration());
                 builder.ApplyConfiguration(new EngineCategoryConfiguration());
                 builder.ApplyConfiguration(new CarConfiguration());
+                builder.ApplyConfiguration(new TransportConfiguration());
             }
 
             base.OnModelCreating(builder);

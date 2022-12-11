@@ -51,6 +51,8 @@ namespace CarRentingSystem.Core.Contracts
 
         
 
+        
+
 
     }
 }

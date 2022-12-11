@@ -4,6 +4,7 @@ using CarRentingSystem.Core.Contracts;
 using CarRentingSystem.Core.Extensions;
 using CarRentingSystem.Core.Models.Car;
 using CarRentingSystem.Extensions;
+using CarRentingSystem.Infrastructure.Data.Models;
 using CarRentingSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -269,12 +270,12 @@ namespace CarRentingSystem.Controllers
                 return RedirectToAction(nameof(All));
             }
 
-            if ((await agentService.ExistById(User.Id())) && !User.IsAdmin())
-            {
-                TempData[AgentControllerConstants.ErrorMessage] = CarControllerConstants.AgentDoesNotExistError;
-                return RedirectToAction(nameof(All));
-                //return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-            }
+            //if ((await agentService.ExistById(User.Id())) && !User.IsAdmin())
+            //{
+            //    TempData[AgentControllerConstants.ErrorMessage] = CarControllerConstants.AgentDoesNotExistError;
+            //    return RedirectToAction(nameof(All));
+            //    //return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            //}
 
             if ((await this.carService.IsRented(id)))
             {
@@ -285,7 +286,7 @@ namespace CarRentingSystem.Controllers
             await this.carService.RentCar(id, User.Id());
 
             TempData[AgentControllerConstants.SuccessMessage] = CarControllerConstants.CarRentedSuccessfully;
-            return RedirectToAction(nameof(Mine));
+            return RedirectToAction(nameof(All), nameof(Transport));
         }
 
         [HttpPost]

@@ -1,0 +1,22 @@
+﻿@model IEnumerable<AllTransportsViewModel>
+
+@{
+    ViewBag.Title = "All Transports";
+}
+
+<h2 class="text-center">@ViewBag.Title for your rented cars</h2>
+<hr />
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var transport in Model)
+        {
+            <partial name="_TransportPartial" model="@transport" />
+        }
+    </div>
+}
+else
+{
+    <h3 class="text-center">The is no transport available</h3>
+}

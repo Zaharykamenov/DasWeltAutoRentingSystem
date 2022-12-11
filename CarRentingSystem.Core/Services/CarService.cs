@@ -1,10 +1,10 @@
 ﻿using CarRentingSystem.Common;
+using CarRentingSystem.Core.Constants;
 using CarRentingSystem.Core.Contracts;
 using CarRentingSystem.Core.Enums;
 using CarRentingSystem.Core.Exceptions;
 using CarRentingSystem.Core.Models.Agent;
 using CarRentingSystem.Core.Models.Car;
-using CarRentingSystem.Core.Models.EngineCategory;
 using CarRentingSystem.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -123,6 +123,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task<IEnumerable<CarServiceModel>> AllCarsByUserId(string userId)
         {
+            if (String.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException(CarConstants.ParametersAreNullOrEmptyError);
+            }
             return await this.repository.AllReadonly<Car>()
                  .Where(c => c.IsActive)
                  .Where(c => c.RenterId == userId)
@@ -148,6 +152,11 @@ namespace CarRentingSystem.Core.Services
 
         public async Task<int> Create(CarModel model, int agentId)
         {
+            if (model==null)
+            {
+                throw new ArgumentNullException(CarConstants.ParametersAreNullOrEmptyError);
+            }
+
             var car = new Car()
             {
                 Address = model.Address,
@@ -179,6 +188,11 @@ namespace CarRentingSystem.Core.Services
 
         public async Task<bool> HasAgentWithId(int carId, string currentUserId)
         {
+            if (String.IsNullOrEmpty(currentUserId))
+            {
+                throw new ArgumentNullException(CarConstants.ParametersAreNullOrEmptyError);
+            }
+
             bool result = false;
 
             var Car = await this.repository.AllReadonly<Car>()
@@ -272,15 +286,12 @@ namespace CarRentingSystem.Core.Services
             car.EngineCategoryId = carModel.EngineCategoryId;
 
             await this.repository.SaveChangesAsync();
-
-
         }
 
         public async Task<bool> CarExist(int id)
         {
             return await this.repository.AllReadonly<Car>()
                 .AnyAsync(h => h.Id == id && h.IsActive);
-
         }
 
         public async Task<bool> IsRented(int carId)
@@ -290,6 +301,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task<bool> IsRentedByUserWithId(int carId, string userId)
         {
+            if (String.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException(CarConstants.ParametersAreNullOrEmptyError);
+            }
             bool result = false;
 
             var car = await this.repository.AllReadonly<Car>()
@@ -332,6 +347,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task RentCar(int carId, string userId)
         {
+            if (String.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException(CarConstants.ParametersAreNullOrEmptyError);
+            }
             var car = await this.repository.GetByIdAsync<Car>(carId);
 
             if (car != null && car.RenterId != null)
@@ -360,6 +379,6 @@ namespace CarRentingSystem.Core.Services
                 .ToListAsync();
         }
 
-
+        
     }
 }

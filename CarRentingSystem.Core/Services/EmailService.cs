@@ -25,6 +25,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task<string> GetEmailBody(int carId, string userId)
         {
+            if (String.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException(EmailConstants.ParametersAreNullOrEmptyError);
+            }
             StringBuilder sb = new StringBuilder();
 
             var lastAddedCar = await this.repository.GetByIdAsync<Car>(carId);
@@ -46,7 +50,7 @@ namespace CarRentingSystem.Core.Services
             sb.AppendLine("</head>");
             sb.AppendLine("<body>");
             sb.AppendLine("<div class=\"card\" style=\"width: 18rem;\">");
-            sb.AppendLine($"<img src=\"{lastAddedCar.ImageUrl}\" class=\"card-img-top\" alt=\"...\">");
+            sb.AppendLine($"<img src=\"{lastAddedCar.ImageUrl}\" style=\"height:300px; width: auto;\" class=\"card-img-top\" alt=\"...\">");
             sb.AppendLine("<div class=\"card-body\">");
             sb.AppendLine($"<h2 class=\"card-title\">{lastAddedCar.Title}</h2>");
             sb.AppendLine($"<h4 class=\"card-text\">{lastAddedCar.Description}</h4>");
@@ -67,6 +71,10 @@ namespace CarRentingSystem.Core.Services
 
         public async Task Send(int carId, string userId)
         {
+            if (String.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException(EmailConstants.ParametersAreNullOrEmptyError);
+            }
             using (IServiceScope scope = this.serviceProvider.CreateScope())
             {
                 var emailConfiguration = scope.ServiceProvider.GetService<IOptions<EmailConfiguration>>().Value;

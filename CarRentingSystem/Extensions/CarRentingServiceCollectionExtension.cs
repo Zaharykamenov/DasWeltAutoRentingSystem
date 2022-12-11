@@ -18,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IStatisticsService, StatisticsService>();
             services.AddScoped<IEngineCategoryService, EngineCategoryService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ITransportService, TransportService>();
 
             services.AddMemoryCache();
 

@@ -11,6 +11,6 @@
         public const int UserPassMaxLength = 20;
         public const int UserPassMinLength = 5;
 
-
+        public const string ParametersAreNullOrEmptyError = "Some of parameters are null or empty!";
     }
 }

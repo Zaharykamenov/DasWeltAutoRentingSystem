@@ -23,6 +23,8 @@ namespace CarRentingSystem.UnitTest.UnitTests
         public Agent Agent { get; private set; }
         public Car RentedCar { get; private set; }
         public Car NonRentedCar { get; private set; }
+        public Transport NonRentedTransport { get; private set; }
+        public Transport RentedTransport { get; private set; }
 
         private void SeedDatabase()
         {
@@ -63,7 +65,7 @@ namespace CarRentingSystem.UnitTest.UnitTests
                 ImageUrl = "https://d3t2kd17lko26w.cloudfront.net/7B4DFDEE62BA9B60F9EF19F3A831E308/images/cda9f12c-4871-4b86-a80a-ba51f32fcd21/webp/768",
                 Renter = this.Renter,
                 Agent = this.Agent,
-                EngineCategory = new EngineCategory() 
+                EngineCategory = new EngineCategory()
                 {
                     Id = 1,
                     Fuel = "Diesel",
@@ -90,6 +92,35 @@ namespace CarRentingSystem.UnitTest.UnitTests
                 }
             };
             this.context.Cars.Add(this.NonRentedCar);
+
+            this.NonRentedTransport = new Transport()
+            {
+                Id = 1,
+                CompanyName = "VidaTrans",
+                DeliveryDays = 5,
+                Description = "This is VidaTrans description!",
+                ImageUrl = "https://www.vida.se/wp-content/uploads/2018/12/vida_rgb.jpg",
+                IsActive = true,
+                PricePerKm = 10.0m,
+                AgentId = this.Agent.Id,
+                Renter = null
+            };
+            this.context.Transports.Add(this.NonRentedTransport);
+
+            this.RentedTransport = new Transport()
+            {
+                Id = 2,
+                CompanyName = "SofiaTrans",
+                DeliveryDays = 3,
+                Description = "This is SofiaTrans description!",
+                ImageUrl = "https://static.vecteezy.com/system/resources/thumbnails/006/604/979/small/transport-logo-with-modern-and-professional-concept-premium-vector.jpg",
+                IsActive = true,
+                PricePerKm = 20.0m,
+                AgentId = this.Agent.Id,
+                RenterId = this.Renter.Id
+            };
+
+            this.context.Transports.Add(this.RentedTransport);
 
             this.context.SaveChanges();
 
