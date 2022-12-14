@@ -8,14 +8,29 @@ using System.Text;
 
 namespace CarRentingSystem.Core.Services
 {
+    /// <summary>
+    /// Class that represent all method related with user
+    /// </summary>
     public class UserService : IUserService
     {
+        /// <summary>
+        /// private property repository which is DB connection
+        /// </summary>
         private readonly IRepository repository;
+
+        /// <summary>
+        /// Constructor of class UserService
+        /// </summary>
+        /// <param name="repository"></param>
         public UserService(IRepository repository)
         {
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Method that get all users with agent includede
+        /// </summary>
+        /// <returns>IEnumerable of UserServiceModel</returns>
         public async Task<IEnumerable<UserServiceModel>> All()
         {
             var allUsers = new List<UserServiceModel>();
@@ -47,6 +62,12 @@ namespace CarRentingSystem.Core.Services
             return allUsers;
         }
 
+        /// <summary>
+        /// Method that get full name of specific user ID.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>string</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<string> UserFullName(string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -66,6 +87,12 @@ namespace CarRentingSystem.Core.Services
             return sb.ToString().TrimEnd();
         }
 
+        /// <summary>
+        /// Method that check of specific user has rents 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>True or False</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<bool> UserHasRents(string userId)
         {
             if (String.IsNullOrEmpty(userId))

@@ -6,15 +6,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentingSystem.Core.Services
 {
+    /// <summary>
+    /// Class that represent all related methods with rent car.
+    /// </summary>
     public class RentService : IRentService
     {
         private readonly IRepository repository;
 
+        /// <summary>
+        /// Constructor of the class
+        /// </summary>
+        /// <param name="repository"></param>
         public RentService(IRepository repository)
         {
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Method get all cars from database with user and agent information
+        /// </summary>
+        /// <returns>IEnumerable of RentServiceModel</returns>
         public async Task<IEnumerable<RentServiceModel>> All()
         {
             return await this.repository.All<Car>()

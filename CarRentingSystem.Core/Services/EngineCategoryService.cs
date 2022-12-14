@@ -7,15 +7,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentingSystem.Core.Services
 {
+    /// <summary>
+    /// That class represent all method related to car engine category.
+    /// </summary>
     public class EngineCategoryService : IEngineCategoryService
     {
+        /// <summary>
+        /// Private property repository
+        /// </summary>
         private readonly IRepository repository;
 
+        /// <summary>
+        /// Constructor of the class EngineCategoryService
+        /// </summary>
+        /// <param name="repository"></param>
         public EngineCategoryService(IRepository repository)
         {
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Return integer that represent ID for created car engine category in database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<int> CreateEngineCategory(EngineCategoryCreateModel model)
         {
             if (model==null)
@@ -35,6 +51,11 @@ namespace CarRentingSystem.Core.Services
             return engine.Id;
         }
 
+        /// <summary>
+        /// Method make isActive property to false of current engine category ID.
+        /// </summary>
+        /// <param name="engineCategoryId"></param>
+        /// <returns></returns>
         public async Task DeleteEngineCategory(int engineCategoryId)
         {
             var engine = await this.repository.GetByIdAsync<EngineCategory>(engineCategoryId);
@@ -42,6 +63,10 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Return IEnumerable of EngineCategoryViewModel represent all engine category.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<EngineCategoryViewModel>> GetAllEngineCategory()
         {
             return await this.repository.AllReadonly<EngineCategory>()
@@ -59,6 +84,11 @@ namespace CarRentingSystem.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Return EngineCategoryDetailsModel represent engine category by ID from database.
+        /// </summary>
+        /// <param name="engineCategoryId"></param>
+        /// <returns></returns>
         public async Task<EngineCategoryDetailsModel> GetEngineCategoryById(int engineCategoryId)
         {
 
@@ -72,6 +102,11 @@ namespace CarRentingSystem.Core.Services
             };
         }
 
+        /// <summary>
+        /// Return true or false if engine category ID exist in database.
+        /// </summary>
+        /// <param name="engineCategoryId"></param>
+        /// <returns></returns>
         public async Task<bool> IsExistEngineCategoryById(int engineCategoryId)
         {
             return await this.repository.AllReadonly<EngineCategory>()
@@ -79,12 +114,19 @@ namespace CarRentingSystem.Core.Services
                 .AnyAsync(e => e.Id == engineCategoryId);
         }
 
+        /// <summary>
+        /// Method modify engine category in database.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>No Returns</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task UpdateEngineCategory(EngineCategoryDetailsModel model)
         {
             if (model==null)
             {
                 throw new ArgumentNullException(EngineCategoryConstants.ParametersAreNullOrEmptyError);
             }
+
             var engine = await this.repository.GetByIdAsync<EngineCategory>(model.Id);
             engine.Fuel = model.Fuel;
             engine.Description = model.Description;

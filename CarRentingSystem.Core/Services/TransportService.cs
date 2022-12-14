@@ -8,15 +8,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentingSystem.Core.Services
 {
+    /// <summary>
+    /// Class that represent all method for transport.
+    /// </summary>
     public class TransportService : ITransportService
     {
+        /// <summary>
+        /// Private property of repository
+        /// </summary>
         private readonly IRepository repository;
 
+        /// <summary>
+        /// Constructor of class transport service
+        /// </summary>
+        /// <param name="repository"></param>
         public TransportService(IRepository repository)
         {
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Method that get all active transports from database
+        /// </summary>
+        /// <returns>IEnumerable of AllTransportsViewModel</returns>
         public async Task<IEnumerable<AllTransportsViewModel>> GetAllTransports()
         {
             return await this.repository.AllReadonly<Transport>()
@@ -40,6 +54,13 @@ namespace CarRentingSystem.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Return true or false if transport is rented by current userID.
+        /// </summary>
+        /// <param name="transportId"></param>
+        /// <param name="userId"></param>
+        /// <returns>bool</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<bool> IsRentedByUserWithId(int transportId, string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -62,6 +83,15 @@ namespace CarRentingSystem.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Method that represent renting current transport by userID.
+        /// </summary>
+        /// <param name="transportId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public async Task RentTransport(int transportId, string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -85,6 +115,11 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Method that leave transport which is rented by current user.
+        /// </summary>
+        /// <param name="transportId"></param>
+        /// <returns></returns>
         public async Task LeaveTransport(int transportId)
         {
             var transport = await this.repository.GetByIdAsync<Transport>(transportId);
@@ -97,17 +132,33 @@ namespace CarRentingSystem.Core.Services
             }
         }
 
+        /// <summary>
+        /// Method checks that transport exist in database by ID
+        /// </summary>
+        /// <param name="transportId"></param>
+        /// <returns>Return true or false</returns>
         public async Task<bool> TransportExist(int transportId)
         {
             return await this.repository.AllReadonly<Transport>()
                 .AnyAsync(h => h.Id == transportId && h.IsActive);
         }
 
+        /// <summary>
+        /// Method checks that transport is rented.
+        /// </summary>
+        /// <param name="transportId"></param>
+        /// <returns>Return true or false</returns>
         public async Task<bool> IsRented(int transportId)
         {
             return (await this.repository.GetByIdAsync<Transport>(transportId)).RenterId != null ? true : false;
         }
 
+        /// <summary>
+        /// Method get all active transport by user ID. 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>IEnumerable of AllTransportsViewModel</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<IEnumerable<AllTransportsViewModel>> AllTransportsByUserId(string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -130,6 +181,11 @@ namespace CarRentingSystem.Core.Services
                  .ToListAsync();
         }
 
+        /// <summary>
+        /// Method that get transport details information by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>AllTransportsViewModel</returns>
         public async Task<AllTransportsViewModel> TransportDetailsById(int id)
         {
             return await this.repository.AllReadonly<Transport>()
@@ -154,6 +210,13 @@ namespace CarRentingSystem.Core.Services
                 .FirstAsync();
         }
 
+        /// <summary>
+        /// Method check if transport has been added by agent.
+        /// </summary>
+        /// <param name="transportId"></param>
+        /// <param name="currentUserId"></param>
+        /// <returns>Return true or false</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<bool> HasAgentWithId(int transportId, string currentUserId)
         {
             if (String.IsNullOrEmpty(currentUserId))
@@ -176,6 +239,12 @@ namespace CarRentingSystem.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Method that check if user has rented car.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Return true or false</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<bool> HasRentedCarByUserId(string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -196,6 +265,12 @@ namespace CarRentingSystem.Core.Services
             return hasRentedCars;
         }
 
+        /// <summary>
+        /// Method add transport to database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public AddTransportModel AddTransportModel(AllTransportsViewModel model)
         {
             if (model==null)
@@ -213,6 +288,13 @@ namespace CarRentingSystem.Core.Services
             };
         }
 
+        /// <summary>
+        /// Method that modify specific transport in database.
+        /// </summary>
+        /// <param name="transportId"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task TransportEdit(int transportId, AddTransportModel model)
         {
             if (model == null)
@@ -230,6 +312,11 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Method that make transport property is active to false.
+        /// </summary>
+        /// <param name="transportId"></param>
+        /// <returns></returns>
         public async Task DeleteTransport(int transportId)
         {
             var transport = await this.repository.GetByIdAsync<Transport>(transportId);
@@ -237,6 +324,13 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Method that create transport in database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="agentId"></param>
+        /// <returns>Retirn integer that represent new created transport ID</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<int> Create(AddTransportModel model, int agentId)
         {
             if (model == null)
@@ -259,6 +353,11 @@ namespace CarRentingSystem.Core.Services
             return transport.Id;
         }
 
+        /// <summary>
+        /// Method that get all transport uploaded by specific agent ID.
+        /// </summary>
+        /// <param name="agentId"></param>
+        /// <returns>IEnumerable of AllTransportsViewModel</returns>
         public async Task<IEnumerable<AllTransportsViewModel>> AllTransportsByAgentId(int agentId)
         {
             return await this.repository.AllReadonly<Transport>()

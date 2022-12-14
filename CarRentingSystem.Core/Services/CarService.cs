@@ -10,12 +10,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentingSystem.Core.Services
 {
+    /// <summary>
+    /// This is car service class that support all operations related to cars.
+    /// </summary>
     public class CarService : ICarService
     {
+        /// <summary>
+        /// Private properties of the class CarService
+        /// </summary>
         private readonly IRepository repository;
         private readonly IGuard guard;
         private readonly IUserService userService;
 
+        /// <summary>
+        /// this is a constructor ot the class CarService with three parameters
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="guard"></param>
+        /// <param name="userService"></param>
         public CarService(IRepository repository, IGuard guard, IUserService userService)
         {
             this.repository = repository;
@@ -23,6 +35,16 @@ namespace CarRentingSystem.Core.Services
             this.userService = userService;
         }
 
+        /// <summary>
+        /// This method has been used to generate CarQueryModel for the index page. It`s support searching form to perfom model by user`s parameters.
+        /// There is paganation for index page about visualisation of all cars at index page.
+        /// </summary>
+        /// <param name="fuel"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="carSorting"></param>
+        /// <param name="currentPage"></param>
+        /// <param name="carsPerPage"></param>
+        /// <returns></returns>
         public async Task<CarQueryModel> All(string? fuel = null, string? searchTerm = null, CarSorting carSorting = CarSorting.Newest, int currentPage = 1, int carsPerPage = 1)
         {
             var result = new CarQueryModel();
@@ -81,6 +103,10 @@ namespace CarRentingSystem.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Returns IEnumerable of CarCategoryModel
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<CarCategoryModel>> AllCategories()
         {
             return await this.repository.AllReadonly<EngineCategory>()
@@ -94,6 +120,10 @@ namespace CarRentingSystem.Core.Services
                  .ToListAsync();
         }
 
+        /// <summary>
+        /// Return IEnumerable of string with all category names.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<string>> AllCategoriesNames()
         {
             return await this.repository.AllReadonly<EngineCategory>()
@@ -103,6 +133,11 @@ namespace CarRentingSystem.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Return IEnumerable of CarServiceModel that represent all cars added by current Agent. Parameters for that method is agentId.
+        /// </summary>
+        /// <param name="agentId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<CarServiceModel>> AllCarsByAgentId(int agentId)
         {
             return await this.repository.AllReadonly<Car>()
@@ -121,6 +156,12 @@ namespace CarRentingSystem.Core.Services
                  .ToListAsync();
         }
 
+        /// <summary>
+        /// Return IEnumerable of CarServiceModel that represents all cars by userId. Method has parameter userId.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<IEnumerable<CarServiceModel>> AllCarsByUserId(string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -143,6 +184,11 @@ namespace CarRentingSystem.Core.Services
                  .ToListAsync();
         }
 
+        /// <summary>
+        /// Method return true or false if EngineCategory exist by ID.
+        /// </summary>
+        /// <param name="engineCategoryId"></param>
+        /// <returns></returns>
         public async Task<bool> CategoryExist(int engineCategoryId)
         {
             return await this.repository.AllReadonly<EngineCategory>()
@@ -150,6 +196,13 @@ namespace CarRentingSystem.Core.Services
                 .AnyAsync(c => c.Id == engineCategoryId);
         }
 
+        /// <summary>
+        /// Method create car in Db and return car`s ID.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="agentId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<int> Create(CarModel model, int agentId)
         {
             if (model==null)
@@ -174,6 +227,11 @@ namespace CarRentingSystem.Core.Services
             return car.Id;
         }
 
+        /// <summary>
+        /// Method change car`s property isActive to false.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <returns></returns>
         public async Task DeleteCar(int carId)
         {
             var car = await this.repository.GetByIdAsync<Car>(carId);
@@ -181,11 +239,23 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Method return integer that represent car`s engine category ID by current car ID.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <returns></returns>
         public async Task<int> GetCarCategoryId(int carId)
         {
             return (await this.repository.GetByIdAsync<Car>(carId)).EngineCategoryId;
         }
 
+        /// <summary>
+        /// Return true or false if there is Agent in Db with ID that added current car.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="currentUserId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<bool> HasAgentWithId(int carId, string currentUserId)
         {
             if (String.IsNullOrEmpty(currentUserId))
@@ -209,6 +279,11 @@ namespace CarRentingSystem.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Return CarDetailsModel that represent car details information by car ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<CarDetailsModel> CarDetailsById(int id)
         {
             return await this.repository.AllReadonly<Car>()
@@ -256,6 +331,17 @@ namespace CarRentingSystem.Core.Services
             //return carDetailsModel;
         }
 
+        /// <summary>
+        /// This method modify car in DB
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="title"></param>
+        /// <param name="address"></param>
+        /// <param name="description"></param>
+        /// <param name="imageUrl"></param>
+        /// <param name="pricePerMonth"></param>
+        /// <param name="engineCategoryId"></param>
+        /// <returns></returns>
         public async Task CarEdit(int carId, string title, string address, string description, string imageUrl, decimal pricePerMonth, int engineCategoryId)
         {
             var car = await this.repository.AllReadonly<Car>()
@@ -274,6 +360,12 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method modify car in DB
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="carModel"></param>
+        /// <returns></returns>
         public async Task CarEdit(int carId, CarModel carModel)
         {
             var car = await this.repository.GetByIdAsync<Car>(carId);
@@ -288,17 +380,34 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Return true or false if car exist in database by car ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<bool> CarExist(int id)
         {
             return await this.repository.AllReadonly<Car>()
                 .AnyAsync(h => h.Id == id && h.IsActive);
         }
 
+        /// <summary>
+        /// Return true or false if car is rented by some user.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <returns></returns>
         public async Task<bool> IsRented(int carId)
         {
             return (await this.repository.GetByIdAsync<Car>(carId)).RenterId != null;
         }
 
+        /// <summary>
+        /// Return true or false if car is rented by current user ID.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<bool> IsRentedByUserWithId(int carId, string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -321,6 +430,10 @@ namespace CarRentingSystem.Core.Services
             return result;
         }
 
+        /// <summary>
+        /// Return IEnumerable of CarHomeModel that represent last three added cars in database.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<CarHomeModel>> LastThreeCars()
         {
             return await this.repository.AllReadonly<Car>()
@@ -337,6 +450,11 @@ namespace CarRentingSystem.Core.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Method leave car by car ID.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <returns></returns>
         public async Task LeaveCar(int carId)
         {
             var car = await this.repository.GetByIdAsync<Car>(carId);
@@ -345,6 +463,14 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Method rent a car by user.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public async Task RentCar(int carId, string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -363,6 +489,10 @@ namespace CarRentingSystem.Core.Services
             await this.repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Return IEnumerable of CarServiceModel that represent all existing car in database.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<CarServiceModel>> GetAllExistedCar()
         {
             return await this.repository.AllReadonly<Car>()

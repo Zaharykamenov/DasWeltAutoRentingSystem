@@ -12,17 +12,35 @@ using System.Text;
 
 namespace CarRentingSystem.Core.Services
 {
+    /// <summary>
+    /// EmailService represent all services related to emails.
+    /// </summary>
     public class EmailService : IEmailService
     {
+        /// <summary>
+        /// Private properties of the class
+        /// </summary>
         private readonly IServiceProvider serviceProvider;
         private readonly IRepository repository;
 
+        /// <summary>
+        /// Constructor of the class EmailService
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="repository"></param>
         public EmailService(IServiceProvider serviceProvider, IRepository repository)
         {
             this.serviceProvider = serviceProvider;
             this.repository = repository;
         }
 
+        /// <summary>
+        /// Method return string represent email body.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<string> GetEmailBody(int carId, string userId)
         {
             if (String.IsNullOrEmpty(userId))
@@ -69,6 +87,13 @@ namespace CarRentingSystem.Core.Services
 
         }
 
+        /// <summary>
+        /// Method send email for current Car and email has been sended by user ID.
+        /// </summary>
+        /// <param name="carId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task Send(int carId, string userId)
         {
             if (String.IsNullOrEmpty(userId))

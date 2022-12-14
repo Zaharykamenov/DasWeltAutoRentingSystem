@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentingSystem.Controllers
 {
+
     [Authorize]
     public class CarController : Controller
     {
@@ -28,6 +29,7 @@ namespace CarRentingSystem.Controllers
             this.agentService = agentService;
             this.emailService = emailService;
         }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -74,6 +76,7 @@ namespace CarRentingSystem.Controllers
             return View(myCars);
         }
 
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id, string information)
@@ -96,6 +99,7 @@ namespace CarRentingSystem.Controllers
             return View(model);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -112,6 +116,7 @@ namespace CarRentingSystem.Controllers
             };
             return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Add(CarModel model)
