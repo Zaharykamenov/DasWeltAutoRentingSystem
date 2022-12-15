@@ -28,6 +28,7 @@ namespace CarRentingSystem.Infrastructure.Data
         public virtual DbSet<EngineCategory> EngineCategory { get; set; }
         public virtual DbSet<Agent> Agents { get; set; }
         public virtual DbSet<Transport> Transports { get; set; }
+        public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

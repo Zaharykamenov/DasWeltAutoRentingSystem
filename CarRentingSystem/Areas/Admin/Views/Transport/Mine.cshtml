@@ -1,0 +1,36 @@
+﻿@model MyTransportsViewModel
+
+@{
+    ViewBag.Title = "My Transports";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<h4 class="text-center">My Added Transports</h4>
+
+@if (!Model.AddedTransports.Any())
+{
+    <h2 class="text-center">You have no added transports yet!</h2>
+}
+
+<div class="row">
+    @foreach (var transport in Model.AddedTransports)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_TransportPartial.cshtml", transport)
+    }
+</div>
+
+<h4 class="text-center">My Rented Transports</h4>
+
+@if (!Model.RentedTransports.Any())
+{
+    <h2 class="text-center">You have no rented transports yet!</h2>
+}
+
+<div class="row">
+    @foreach (var transport in Model.RentedTransports)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_TransportPartial.cshtml", transport)
+    }
+</div>

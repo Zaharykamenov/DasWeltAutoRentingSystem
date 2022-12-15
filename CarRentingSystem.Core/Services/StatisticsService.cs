@@ -34,13 +34,21 @@ namespace CarRentingSystem.Core.Services
             int totalCars = await this.repository.AllReadonly<Car>()
                 .CountAsync(c => c.IsActive);
 
-            int rentedCars = await this.repository.AllReadonly<Car>()
+            int totalCarRents = await this.repository.AllReadonly<Car>()
+                .CountAsync(c => c.IsActive && c.RenterId != null);
+
+            int totalTransports = await this.repository.AllReadonly<Transport>()
+                .CountAsync(c => c.IsActive);
+
+            int totalTransportRents = await this.repository.AllReadonly<Transport>()
                 .CountAsync(c => c.IsActive && c.RenterId != null);
 
             return new StatisticsServiceModel()
             {
                 TotalCars = totalCars,
-                TotalRents = rentedCars
+                TotalCarRents = totalCarRents,
+                TotalTransports = totalTransports,
+                TotalTransportRents = totalTransportRents
             };
         }
     }

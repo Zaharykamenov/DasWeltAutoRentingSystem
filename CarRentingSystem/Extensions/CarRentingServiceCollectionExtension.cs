@@ -19,6 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IEngineCategoryService, EngineCategoryService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ITransportService, TransportService>();
+            services.AddScoped<IErrorLogService, ErrorLogService>();
 
             services.AddMemoryCache();
 

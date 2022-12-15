@@ -1,5 +1,6 @@
 using CarRentingSystem.Configuration;
 using CarRentingSystem.Constants;
+using CarRentingSystem.Filters;
 using CarRentingSystem.Infrastructure.Data;
 using CarRentingSystem.Infrastructure.Data.Models;
 using CarRentingSystem.Infrastructure.Extensions;
@@ -32,6 +33,7 @@ builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
         options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+        options.Filters.Add(new ErrorHandlingFilter());
     });
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -46,6 +48,7 @@ builder.Host.ConfigureAppConfiguration((context, builder) =>
     .AddEnvironmentVariables();
 });
 builder.Services.AddApplicationServices();
+
 
 var emailConfigurationSection = builder.Configuration.GetSection(EmailConfigurationConstants.EmailConfiguration);
 builder.Services.Configure<EmailConfiguration>(emailConfigurationSection);
@@ -68,6 +71,8 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseStatusCodePagesWithRedirects("/Home/Index");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
